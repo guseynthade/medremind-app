@@ -12,7 +12,9 @@
             padding: 20px;
             color: #1c1c1e;
         }
-        h1 { text-align: center; margin: 20px 0; color: #007AFF; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .logo { font-size: 2rem; }
+        h1 { margin: 10px 0; color: #007AFF; }
         input, button {
             padding: 14px;
             margin: 10px 0;
@@ -35,8 +37,7 @@
             border-radius: 10px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
-        .header { text-align: center; margin-bottom: 20px; }
-        .logo { font-size: 2rem; }
+        #medList { margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -53,61 +54,7 @@
     <h2 style="margin: 20px 0 10px;">Aktiv Xatırlatmalar</h2>
     <div id="medList"></div>
 
-    <script>
-        const tg = window.Telegram?.WebApp;
-        tg.ready();
-        tg.expand(); // Tam ekran
-
-        const userId = tg.initDataUnsafe.user?.id || "test123";
-
-        async function addMed() {
-                const tg = window.Telegram?.WebApp;
-                const userId = tg.initDataUnsafe?.user?.id || "test123"; // İndi funksiya daxilində
-            
-                const name = document.getElementById("medName").value;
-                const dose = document.getElementById("dose").value;
-                const time = document.getElementById("time").value;
-            
-                if (!name || !time) return alert("Bütün sahələri doldurun");
-            
-                const med = { name, dose, time, userId };
-            
-                try {
-                    const res = await fetch("https://medremind-server.onrender.com/api/meds", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(med),
-                    });
-            
-                    if (res.ok) {
-                        alert("✅ Xatırlatma əlavə edildi!");
-                        loadMeds(); // Siyahını yenilə
-                    } else {
-                        alert("Xəta: " + res.status);
-                    }
-                } catch (err) {
-                    alert("Bağlantı xətası: " + err.message);
-                }
-            }
-
-            if (res.ok) {
-                alert("✅ Xatırlatma əlavə edildi!");
-                loadMeds();
-            } else {
-                alert("Xəta baş verdi!");
-            }
-        }
-
-        async function loadMeds() {
-            const res = await fetch(`https://medremind-server.onrender.com/api/meds/${userId}`);
-            const meds = await res.json();
-            const list = document.getElementById("medList");
-            list.innerHTML = meds.map(m => 
-                `<div class="med"><b>${m.time}</b> | ${m.name} (${m.dose})</div>`
-            ).join("");
-        }
-
-        loadMeds();
-    </script>
+    <!-- script.js yüklənir -->
+    <script src="script.js"></script>
 </body>
 </html>
